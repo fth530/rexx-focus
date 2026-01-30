@@ -11,6 +11,35 @@
 
 ## ✨ Features
 
+### 🎨 **Dynamic Theme Engine** ✨ NEW
+Switch between 5 premium themes instantly.
+- **Sunset** (Electric Orange) - Default energetic theme
+- **Ocean** (Cyan) - Calm, focused atmosphere
+- **Forest** (Emerald) - Natural, grounding vibe
+- **Nebula** (Purple) - Creative, mystical feel
+- **Classic** (Red) - Bold, traditional Pomodoro
+- **Glowing color swatches** with dual-ring animation
+- **500ms smooth transitions** across entire app
+- **localStorage persistence** - Theme survives refresh
+- **Accessibility:** Full keyboard navigation + ARIA labels
+
+### 🎬 **Cinematic Intro: "The Breathing Core"** ✨ NEW
+Premium startup experience inspired by Apple devices.
+- **Minimalist breathing icon** (80px) with theme-aware glow
+- **Micro typography** (tracking: 0.3em) - whisper-quiet elegance
+- **Gentle fade transitions** - No harsh effects
+- **Film grain overlay** for texture
+- **One tap to enter** - Full-screen clickable area
+
+### 🔊 **Zen Tech Sonic Branding** ✨ NEW
+Professional sound effects using Web Audio API (zero external files).
+- **Start:** Futuristic power-up (rising sine 240Hz→480Hz, 120ms)
+- **Stop:** Mechanical click (triangle wave 200Hz, 80ms)
+- **Finish:** Zen achievement gong (A Major chord + reverb, 800ms)
+- **Multi-oscillator synthesis** for rich chord sound
+- **Automatic cleanup** - No memory leaks
+- **Settings-aware** - Respects sound toggle
+
 ### 🎯 **Deep Focus Mode**
 Immersive focus experience - the world fades away when you're in the zone.
 - Background blur & dimming when timer is running
@@ -46,13 +75,14 @@ Crafted with attention to detail.
 - **Framer Motion** animations (60fps smooth)
 - **8px grid system** for mathematical consistency
 - **Glassmorphism** design elements
-- **Electric Orange** accent (#FF5722)
+- **Dynamic theme colors** (5 choices)
 - **Mobile responsive** (works on all devices)
+- **Custom Focus Target favicon** (SVG)
 
 ### ⚡ **Performance First**
 Optimized for speed and efficiency.
-- **Code splitting** - Stats modal lazy loaded (-47% main bundle)
-- **120 kB gzip** initial load (was 225 kB)
+- **Code splitting** - Stats modal lazy loaded
+- **~117 kB gzip** initial load (optimized)
 - **Suspense fallback** with branded loading state
 - **Zero runtime errors** - Error boundary protection
 
@@ -150,7 +180,8 @@ rexx-focus/
 │   │       └── TodoList.tsx           # Task management
 │   ├── hooks/
 │   │   ├── useInterval.ts             # Custom timer hook
-│   │   └── useNotification.ts         # Browser notifications
+│   │   ├── useNotification.ts         # Browser notifications
+│   │   └── useSoundEffects.ts         # Web Audio API sounds ✨ NEW
 │   ├── store/
 │   │   ├── useTimerStore.ts           # Timer state
 │   │   ├── useTodoStore.ts            # Todo state
@@ -197,14 +228,16 @@ rexx-focus/
 
 | Asset | Size | Gzipped |
 |-------|------|---------|
-| **Main Bundle** | 375.93 kB | **120.71 kB** ✅ |
-| Stats Chunk (lazy) | 344.83 kB | 104.59 kB |
-| **Total** | 720.76 kB | 225.30 kB |
+| **Main Bundle** | 353.84 kB | **112.92 kB** ✅ |
+| Stats Chunk (lazy) | 345.18 kB | 104.71 kB |
+| CSS | 19.85 kB | 4.41 kB |
+| **Initial Load** | - | **~117 kB** ✅ |
 
-### Optimization Impact
-- **Main bundle reduced by 47.8%** (719 → 376 kB)
-- **Initial load improved by 46.4%** (225 → 121 kB gzip)
-- **Time to Interactive (TTI)** significantly faster
+### Latest Optimizations
+- **Theme system:** RGB CSS variables for opacity modifiers (-9 kB)
+- **Sonic branding:** Pure Web Audio API (zero external files)
+- **Code splitting:** Stats modal lazy loaded
+- **Tree shaking:** Tailwind CSS purged to 4.4 kB gzipped
 
 ---
 

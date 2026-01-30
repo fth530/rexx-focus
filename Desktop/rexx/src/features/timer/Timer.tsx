@@ -69,7 +69,7 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
             if (Notification.permission === 'granted') {
                 new Notification('Rexx Focus', {
                     body: mode === 'work' ? 'Çalışma süresi bitti! Ara verme vakti.' : 'Ara bitti! Odaklanma vakti.',
-                    icon: '/vite.svg'
+                    icon: '/favicon.svg'
                 });
             }
         }
