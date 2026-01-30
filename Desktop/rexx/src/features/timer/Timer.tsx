@@ -7,6 +7,7 @@ import { useStatsStore } from '../../store/useStatsStore';
 import { useInterval } from '../../hooks/useInterval';
 import { Button } from '../../components/ui';
 import { playNotificationSound } from '../../hooks/useNotification';
+import { useSoundEffects } from '../../hooks/useSoundEffects';
 
 interface TimerProps {
     onFocusChange?: (isFocused: boolean) => void;
@@ -30,6 +31,7 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
 
     const { soundEnabled, customDurations } = useSettingsStore();
     const { addFocusTime, incrementSession } = useStatsStore();
+    const { playStart, playStop, playFinish } = useSoundEffects();
 
     const [showCustomInput, setShowCustomInput] = useState(false);
     const [customMinutes, setCustomMinutes] = useState('45');
@@ -62,6 +64,7 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
 
             if (soundEnabled) {
                 playNotificationSound();
+                playFinish(); // Zen achievement gong
             }
             if (Notification.permission === 'granted') {
                 new Notification('Rexx Focus', {
@@ -70,7 +73,7 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
                 });
             }
         }
-    }, [timeLeft, isRunning, mode, completeSession, soundEnabled, customDurations, addFocusTime, incrementSession]);
+    }, [timeLeft, isRunning, mode, completeSession, soundEnabled, customDurations, addFocusTime, incrementSession, playFinish]);
 
     React.useEffect(() => {
         if ("Notification" in window && Notification.permission === "default") {
@@ -281,7 +284,15 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
                 </motion.button>
 
                 <Button
-                    onClick={isRunning ? pause : start}
+                    onClick={() => {
+                        if (isRunning) {
+                            pause();
+                            if (soundEnabled) playStop();
+                        } else {
+                            start();
+                            if (soundEnabled) playStart();
+                        }
+                    }}
                     className="w-20 h-20 rounded-full"
                     size="lg"
                     aria-label={isRunning ? 'Zamanlayıcıyı duraklat' : 'Zamanlayıcıyı başlat'}
