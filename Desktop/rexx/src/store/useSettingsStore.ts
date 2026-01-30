@@ -7,10 +7,14 @@ interface CustomDurations {
     longBreak: number;
 }
 
+export type Theme = 'sunset' | 'ocean' | 'forest' | 'nebula' | 'classic';
+
 interface SettingsState {
     customDurations: CustomDurations;
     soundEnabled: boolean;
+    currentTheme: Theme;
     setSoundEnabled: (enabled: boolean) => void;
+    setTheme: (theme: Theme) => void;
     updateDurations: (durations: Partial<CustomDurations>) => void;
     resetToDefaults: () => void;
     applyPreset: (preset: 'classic' | 'deepWork' | 'sprint') => void;
@@ -33,8 +37,11 @@ export const useSettingsStore = create<SettingsState>()(
         (set) => ({
             customDurations: DEFAULT_DURATIONS,
             soundEnabled: true,
+            currentTheme: 'sunset' as Theme,
 
             setSoundEnabled: (enabled) => set({ soundEnabled: enabled }),
+
+            setTheme: (theme) => set({ currentTheme: theme }),
 
             updateDurations: (durations) => set((state) => ({
                 customDurations: {
@@ -46,6 +53,7 @@ export const useSettingsStore = create<SettingsState>()(
             resetToDefaults: () => set({
                 customDurations: DEFAULT_DURATIONS,
                 soundEnabled: true,
+                currentTheme: 'sunset' as Theme,
             }),
 
             applyPreset: (preset) => set({

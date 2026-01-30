@@ -59,7 +59,7 @@ export const TodoList = ({ isFocusMode = false }: TodoListProps) => {
                                 </motion.div>
                                 <div className="flex-1">
                                     <p className="text-xs font-semibold text-accent uppercase tracking-wider">Şu an Odaklanılan</p>
-                                    <h3 className="text-lg font-bold text-white">{activeTodo.text}</h3>
+                                    <h3 className="text-lg font-bold text-white break-words">{activeTodo.text}</h3>
                                 </div>
                                 <Button
                                     variant="ghost"
@@ -190,7 +190,7 @@ const TodoItem = ({
                 {todo.completed ? <CheckCircle2 size={20} /> : <Circle size={20} />}
             </motion.button>
 
-            <span className={`flex-1 text-sm font-medium transition-all ${todo.completed ? 'text-text-dim line-through' : 'text-text-main'
+            <span className={`flex-1 text-sm font-medium transition-all break-words ${todo.completed ? 'text-text-dim line-through' : 'text-text-main'
                 }`}>
                 {todo.text}
             </span>

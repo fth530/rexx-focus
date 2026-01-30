@@ -1,147 +1,146 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { cn } from '../../utils/cn';
+import { useSettingsStore } from '../../store/useSettingsStore';
 
 interface CinematicIntroProps {
     onEnter: () => void;
 }
 
 export const CinematicIntro = ({ onEnter }: CinematicIntroProps) => {
+    const { currentTheme } = useSettingsStore();
+
     return (
         <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-black"
             initial={{ opacity: 1 }}
             exit={{
-                y: '-100%',
-                transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] }
+                opacity: 0,
+                transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
             }}
+            onClick={onEnter}
         >
-            {/* Animated Orb Background */}
-            <div className="absolute inset-0 overflow-hidden">
+            {/* The Breathing Core - Central Icon */}
+            <div className="relative flex flex-col items-center gap-8">
+                {/* Icon Circle with Breathing Animation */}
                 <motion.div
-                    className="absolute top-1/2 left-1/2 w-[800px] h-[800px] rounded-full"
-                    style={{
-                        background: 'radial-gradient(circle, rgba(255,87,34,0.3) 0%, rgba(255,87,34,0.1) 40%, transparent 70%)',
-                        filter: 'blur(80px)',
-                    }}
+                    className="relative flex items-center justify-center"
+                    initial={{ scale: 0.8, opacity: 0 }}
                     animate={{
-                        x: ['-50%', '-45%', '-50%'],
-                        y: ['-50%', '-55%', '-50%'],
-                        scale: [1, 1.1, 1],
+                        scale: 1,
+                        opacity: 1,
                     }}
                     transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
+                        duration: 1.5,
+                        ease: [0.22, 1, 0.36, 1],
+                        delay: 0.3,
                     }}
-                />
-                <motion.div
-                    className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full"
-                    style={{
-                        background: 'radial-gradient(circle, rgba(255,87,34,0.2) 0%, transparent 70%)',
-                        filter: 'blur(60px)',
-                    }}
-                    animate={{
-                        x: ['0%', '20%', '0%'],
-                        y: ['0%', '-10%', '0%'],
-                        scale: [1, 0.9, 1],
-                    }}
-                    transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: 0.5,
-                    }}
-                />
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 flex flex-col items-center text-center px-6">
-                {/* Main Title */}
-                <motion.h1
-                    className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <span className="bg-gradient-to-br from-white via-gray-100 to-gray-400 bg-clip-text text-transparent">
-                        Master Your
-                    </span>
-                    <br />
-                    <span className="bg-gradient-to-r from-accent via-orange-500 to-accent bg-clip-text text-transparent">
-                        Flow
-                    </span>
-                </motion.h1>
-
-                {/* Subtitle */}
-                <motion.p
-                    className="text-text-dim text-lg md:text-xl max-w-2xl mb-16 leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.8 }}
-                >
-                    Derin odaklanma deneyimi için tasarlanan,
-                    <br className="hidden md:block" />
-                    minimalist ve güçlü bir üretkenlik alanı.
-                </motion.p>
-
-                {/* CTA Button */}
-                <motion.button
-                    onClick={onEnter}
-                    className={cn(
-                        'group relative overflow-hidden',
-                        'px-8 py-4 rounded-2xl',
-                        'bg-gradient-to-r from-accent to-orange-600',
-                        'text-white font-semibold text-lg',
-                        'shadow-2xl shadow-accent/50',
-                        'transition-all duration-300',
-                        'hover:shadow-accent/80 hover:scale-105',
-                        'active:scale-95'
-                    )}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 1.2 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    <span className="relative z-10 flex items-center gap-3">
-                        Enter the Zone
-                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                    </span>
-
-                    {/* Button Glow Effect */}
+                    {/* Outer Glow Ring (Theme-aware) */}
                     <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
-                        initial={{ x: '-100%' }}
-                        whileHover={{ x: '100%' }}
-                        transition={{ duration: 0.6 }}
+                        className="absolute inset-0 rounded-full bg-accent/20 blur-2xl"
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.3, 0.5, 0.3],
+                        }}
+                        transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                        style={{
+                            width: '120px',
+                            height: '120px',
+                            marginLeft: '-10px',
+                            marginTop: '-10px',
+                        }}
                     />
-                </motion.button>
 
-                {/* Bottom Hint */}
-                <motion.div
-                    className="absolute bottom-12 left-1/2 -translate-x-1/2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 2, delay: 2, repeat: Infinity, repeatDelay: 1 }}
-                >
-                    <div className="flex flex-col items-center gap-2 text-text-dim/50 text-sm">
-                        <span>Scroll to explore</span>
+                    {/* Main Icon Circle */}
+                    <motion.div
+                        className="relative w-24 h-24 rounded-full bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/30 flex items-center justify-center backdrop-blur-sm"
+                        animate={{
+                            scale: [0.95, 1, 0.95],
+                            opacity: [0.9, 1, 0.9],
+                        }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                    >
+                        {/* Inner Circle (Breathing Core) */}
                         <motion.div
-                            animate={{ y: [0, 8, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            ↓
-                        </motion.div>
-                    </div>
+                            className="w-12 h-12 rounded-full bg-accent/40 blur-sm"
+                            animate={{
+                                scale: [0.9, 1.1, 0.9],
+                                opacity: [0.6, 0.9, 0.6],
+                            }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                            }}
+                        />
+
+                        {/* Center Dot */}
+                        <div className="absolute w-3 h-3 rounded-full bg-accent" />
+                    </motion.div>
+                </motion.div>
+
+                {/* Micro Typography */}
+                <motion.div
+                    className="flex flex-col items-center gap-3"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 1,
+                        delay: 1.2,
+                        ease: [0.22, 1, 0.36, 1],
+                    }}
+                >
+                    {/* Brand Name */}
+                    <h1 className="text-xs tracking-[0.3em] text-white/70 font-medium uppercase">
+                        REXX FOCUS
+                    </h1>
+
+                    {/* Tagline */}
+                    <p className="text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                        Master Your Flow
+                    </p>
+                </motion.div>
+
+                {/* Subtle Hint */}
+                <motion.div
+                    className="absolute bottom-[-80px] text-[10px] tracking-[0.25em] text-white/20 uppercase"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                        opacity: [0, 0.4, 0],
+                    }}
+                    transition={{
+                        duration: 3,
+                        delay: 2,
+                        repeat: Infinity,
+                        repeatDelay: 2,
+                    }}
+                >
+                    Tap to begin
                 </motion.div>
             </div>
 
-            {/* Grain Texture Overlay */}
+            {/* Film Grain Overlay (Ultra Subtle) */}
             <div
-                className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay"
+                className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay"
                 style={{
-                    backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+                    backgroundImage:
+                        'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+                }}
+            />
+
+            {/* Vignette Effect */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                    background:
+                        'radial-gradient(circle at center, transparent 0%, transparent 60%, rgba(0,0,0,0.3) 100%)',
                 }}
             />
         </motion.div>

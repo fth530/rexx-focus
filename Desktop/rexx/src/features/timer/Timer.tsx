@@ -208,9 +208,9 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
             <motion.div
                 className="relative flex items-center justify-center"
                 animate={{
-                    boxShadow: isRunning
-                        ? '0 0 60px rgba(255,87,34,0.4)'
-                        : '0 0 0px rgba(255,87,34,0)',
+                    filter: isRunning
+                        ? 'drop-shadow(0 0 40px var(--color-accent))'
+                        : 'drop-shadow(0 0 0px var(--color-accent))',
                 }}
                 transition={{ duration: 0.5 }}
                 role="timer"
@@ -238,7 +238,7 @@ export const Timer = ({ onFocusChange }: TimerProps) => {
                         strokeDasharray={circumference}
                         strokeDashoffset={offset}
                         strokeLinecap="round"
-                        className="text-accent transition-all duration-1000 ease-linear shadow-[0_0_20px_rgba(255,87,34,0.3)]"
+                        className="text-accent transition-all duration-1000 ease-linear"
                         animate={{
                             strokeWidth: isRunning ? 14 : 12,
                         }}

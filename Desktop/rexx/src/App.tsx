@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Settings, BarChart3 } from 'lucide-react';
 import { Timer } from './features/timer/Timer';
@@ -7,6 +7,7 @@ import { CinematicIntro } from './components/layout/CinematicIntro';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { SettingsModal } from './components/layout/SettingsModal';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
+import { useSettingsStore } from './store/useSettingsStore';
 
 // Lazy load StatsModal (includes Recharts - ~300kB)
 const StatsModal = lazy(() => import('./components/layout/StatsModal').then(module => ({
@@ -14,6 +15,8 @@ const StatsModal = lazy(() => import('./components/layout/StatsModal').then(modu
 })));
 
 function App() {
+  const { currentTheme } = useSettingsStore();
+
   const [showIntro, setShowIntro] = useState(() => {
     const hasVisited = localStorage.getItem('rexx-visited');
     return !hasVisited;
@@ -22,6 +25,11 @@ function App() {
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showStats, setShowStats] = useState(false);
+
+  // Apply theme to html element
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  }, [currentTheme]);
 
   const handleEnterZone = () => {
     localStorage.setItem('rexx-visited', 'true');

@@ -13,7 +13,9 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
     const {
         customDurations,
         soundEnabled,
+        currentTheme,
         setSoundEnabled,
+        setTheme,
         updateDurations,
         resetToDefaults,
         applyPreset,
@@ -144,6 +146,45 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
                                     </div>
                                 </section>
 
+                                {/* Theme Switcher */}
+                                <section>
+                                    <h3 className="text-sm font-semibold text-text-main uppercase tracking-wider mb-4">
+                                        🎨 Tema / Görünüm
+                                    </h3>
+                                    <div className="flex items-center justify-center gap-4" role="radiogroup" aria-label="Tema seçimi">
+                                        <ColorSwatch
+                                            color="#FF5722"
+                                            label="Sunset"
+                                            isActive={currentTheme === 'sunset'}
+                                            onClick={() => setTheme('sunset')}
+                                        />
+                                        <ColorSwatch
+                                            color="#06b6d4"
+                                            label="Ocean"
+                                            isActive={currentTheme === 'ocean'}
+                                            onClick={() => setTheme('ocean')}
+                                        />
+                                        <ColorSwatch
+                                            color="#10b981"
+                                            label="Forest"
+                                            isActive={currentTheme === 'forest'}
+                                            onClick={() => setTheme('forest')}
+                                        />
+                                        <ColorSwatch
+                                            color="#8b5cf6"
+                                            label="Nebula"
+                                            isActive={currentTheme === 'nebula'}
+                                            onClick={() => setTheme('nebula')}
+                                        />
+                                        <ColorSwatch
+                                            color="#ef4444"
+                                            label="Classic"
+                                            isActive={currentTheme === 'classic'}
+                                            onClick={() => setTheme('classic')}
+                                        />
+                                    </div>
+                                </section>
+
                                 {/* Presets */}
                                 <section>
                                     <h3 className="text-sm font-semibold text-text-main uppercase tracking-wider mb-4">
@@ -202,40 +243,59 @@ const DurationSpinner = ({
     value,
     onIncrement,
     onDecrement,
+    min = 1,
+    max = 240,
 }: {
     label: string;
     value: number;
     onIncrement: () => void;
     onDecrement: () => void;
-}) => (
-    <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
-        <span className="text-sm font-medium text-text-main">{label}</span>
-        <div className="flex items-center gap-2">
-            <motion.button
-                onClick={onDecrement}
-                className="p-2 bg-accent/10 hover:bg-accent/20 rounded-lg text-accent transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label={`${label} süresini azalt`}
-            >
-                <Minus size={16} />
-            </motion.button>
-            <span className="w-12 text-center text-lg font-bold text-white">
-                {value}
-            </span>
-            <motion.button
-                onClick={onIncrement}
-                className="p-2 bg-accent/10 hover:bg-accent/20 rounded-lg text-accent transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label={`${label} süresini artır`}
-            >
-                <Plus size={16} />
-            </motion.button>
-            <span className="text-xs text-text-dim ml-1">dk</span>
+    min?: number;
+    max?: number;
+}) => {
+    const isAtMin = value <= min;
+    const isAtMax = value >= max;
+
+    return (
+        <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
+            <span className="text-sm font-medium text-text-main">{label}</span>
+            <div className="flex items-center gap-2">
+                <motion.button
+                    onClick={onDecrement}
+                    disabled={isAtMin}
+                    className={`p-2 rounded-lg transition-colors ${isAtMin
+                        ? 'bg-white/5 text-text-dim cursor-not-allowed opacity-50'
+                        : 'bg-accent/10 hover:bg-accent/20 text-accent'
+                        }`}
+                    whileHover={isAtMin ? {} : { scale: 1.1 }}
+                    whileTap={isAtMin ? {} : { scale: 0.9 }}
+                    aria-label={`${label} süresini azalt`}
+                    aria-disabled={isAtMin}
+                >
+                    <Minus size={16} />
+                </motion.button>
+                <span className="w-12 text-center text-lg font-bold text-white">
+                    {value}
+                </span>
+                <motion.button
+                    onClick={onIncrement}
+                    disabled={isAtMax}
+                    className={`p-2 rounded-lg transition-colors ${isAtMax
+                        ? 'bg-white/5 text-text-dim cursor-not-allowed opacity-50'
+                        : 'bg-accent/10 hover:bg-accent/20 text-accent'
+                        }`}
+                    whileHover={isAtMax ? {} : { scale: 1.1 }}
+                    whileTap={isAtMax ? {} : { scale: 0.9 }}
+                    aria-label={`${label} süresini artır`}
+                    aria-disabled={isAtMax}
+                >
+                    <Plus size={16} />
+                </motion.button>
+                <span className="text-xs text-text-dim ml-1">dk</span>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 // Toggle Switch Component
 const ToggleSwitch = ({
@@ -285,3 +345,96 @@ const PresetButton = ({
         <span className="text-xs text-text-dim">{subtitle}</span>
     </motion.button>
 );
+
+// Color Swatch Component (Glowing Theme Selector)
+const ColorSwatch = ({
+    color,
+    label,
+    isActive,
+    onClick,
+}: {
+    color: string;
+    label: string;
+    isActive: boolean;
+    onClick: () => void;
+}) => {
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick();
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-center gap-2">
+            <motion.button
+                onClick={onClick}
+                onKeyDown={handleKeyPress}
+                className="relative focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-surface rounded-full"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                role="radio"
+                aria-checked={isActive}
+                aria-label={`${label} teması`}
+                tabIndex={0}
+            >
+                {/* Outer Glow (Active only) */}
+                {isActive && (
+                    <motion.div
+                        className="absolute inset-0 rounded-full blur-xl opacity-60"
+                        style={{ backgroundColor: color }}
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.6, 0.8, 0.6],
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                    />
+                )}
+
+                {/* Double Ring (Active only) */}
+                {isActive && (
+                    <>
+                        {/* Outer Ring */}
+                        <motion.div
+                            className="absolute -inset-2 rounded-full border-2"
+                            style={{ borderColor: color }}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                        />
+                        {/* Inner Ring */}
+                        <motion.div
+                            className="absolute -inset-1 rounded-full border"
+                            style={{ borderColor: color, opacity: 0.5 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 0.5, scale: 1 }}
+                            transition={{ duration: 0.3, delay: 0.05 }}
+                        />
+                    </>
+                )}
+
+                {/* Color Circle */}
+                <motion.div
+                    className="relative w-12 h-12 rounded-full shadow-lg"
+                    style={{ backgroundColor: color }}
+                    animate={{
+                        filter: isActive ? 'brightness(1.2)' : 'brightness(0.7) blur(1px)',
+                    }}
+                    transition={{ duration: 0.3 }}
+                />
+            </motion.button>
+
+            {/* Label */}
+            <span
+                className="text-xs font-medium transition-colors"
+                style={{ color: isActive ? color : '#A0A0A0' }}
+            >
+                {label}
+            </span>
+        </div>
+    );
+};

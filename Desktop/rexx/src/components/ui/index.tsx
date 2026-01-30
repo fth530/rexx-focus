@@ -16,7 +16,7 @@ export const Button = ({
   const baseStyles = 'inline-flex items-center justify-center rounded-xl font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none';
 
   const variants = {
-    primary: 'bg-accent text-white hover:bg-orange-600 shadow-lg shadow-accent/20',
+    primary: 'bg-accent text-white hover:opacity-90 shadow-lg shadow-accent/20',
     secondary: 'bg-surface text-text-main hover:bg-neutral-800 border border-white/5',
     ghost: 'bg-transparent text-text-dim hover:text-text-main hover:bg-white/5',
   };

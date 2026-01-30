@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0A0A0A',
-        surface: '#1A1A1A',
-        accent: '#FF5722',
-        'text-main': '#E0E0E0',
-        'text-dim': '#A0A0A0',
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        accent: 'rgb(var(--color-accent) / <alpha-value>)',
+        'text-main': 'rgb(var(--color-text-main) / <alpha-value>)',
+        'text-dim': 'rgb(var(--color-text-dim) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

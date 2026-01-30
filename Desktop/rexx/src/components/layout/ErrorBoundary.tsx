@@ -76,7 +76,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                         {/* Reset Button */}
                         <motion.button
                             onClick={this.handleReset}
-                            className="inline-flex items-center gap-3 px-6 py-3 bg-accent hover:bg-orange-600 rounded-xl font-semibold shadow-lg shadow-accent/20 transition-colors"
+                            className="inline-flex items-center gap-3 px-6 py-3 bg-accent hover:opacity-90 rounded-xl font-semibold shadow-lg shadow-accent/20 transition-all"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
