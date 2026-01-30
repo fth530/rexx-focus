@@ -1,13 +1,10 @@
 import { motion } from 'framer-motion';
-import { useSettingsStore } from '../../store/useSettingsStore';
 
 interface CinematicIntroProps {
     onEnter: () => void;
 }
 
 export const CinematicIntro = ({ onEnter }: CinematicIntroProps) => {
-    const { currentTheme } = useSettingsStore();
-
     return (
         <motion.div
             className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-black"
